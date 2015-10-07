@@ -4,7 +4,7 @@ Generate custom map tile images with boundary coordinates.
 
 Mapbox Tile Grabber was created as an internal dev utility. It is not recommended that your instance of Mapbox Tile Grabber be publicly accessible.
 
-![Screenshot-MapBoxTileGrabber.png](https://raw.github.com/sarahcassady/mapbox-tile-grabber/master/Screenshot-MapBoxTileGrabber.png)
+![Screenshot-MapboxTileGrabber.png](https://raw.github.com/sarahcassady/mapbox-tile-grabber/master/Screenshot-MapboxTileGrabber.png)
 
 ## Requirements
 
