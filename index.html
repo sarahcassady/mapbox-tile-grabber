@@ -1,22 +1,22 @@
 <html dir="ltr" lang="en-US">
 	<head>
-	    <meta charset="utf-8" />  
-	    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-	    <title>Mapbox Tile Grabber</title> 
-	    <script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
-			<link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
-		  <script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-image/v0.0.4/leaflet-image.js'></script>
+		<meta charset="utf-8" />  
+		<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+		<title>Mapbox Tile Grabber</title> 
+		<script src='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.js'></script>
+		<link href='https://api.mapbox.com/mapbox.js/v2.2.2/mapbox.css' rel='stylesheet' />
+		<script src='https://api.mapbox.com/mapbox.js/plugins/leaflet-image/v0.0.4/leaflet-image.js'></script>
 	</head>
 	<body>
 		<div class="container">
 			<div id="controls">
-		    <button id='snap' class='ui-button'>GRAB TILE</button>
+				<button id='snap' class='ui-button'>GRAB TILE</button>
 				<div id='snapshot'></div>
 				<div id='bounds'></div>
-		    <div id='cursor-coords'>click map for coordinates</div>
+				<div id='cursor-coords'>click map for coordinates</div>
 			</div>
-	    <div id="map"></div>	
-	  </div>
+			<div id="map"></div>	
+		</div>
 	</body>
 </html>
 <style>
@@ -25,43 +25,43 @@
 	#controls { position: absolute; top: 10px; right: 10px; z-index: 1; padding: 15px; background-color: rgba(255,255,255,.5); font-family: sans-serif; font-size: 13px; }
 	#controls button { width: 100%; }
 	/* size of map onscreen and generated png */
-  #map { width: 1900px; height: 1200px; } 
-  #snapshot { width: 200px; margin-top: 15px; text-align: center; font-weight: bold; }
-  #snapshot img { width: 100%; height: auto; }
-  #bounds { }
-  #bounds span { display: inline-block; width: 55px; }
-  #cursor-coords { text-align: center; margin-top: 15px; }
+	#map { width: 1900px; height: 1200px; } 
+	#snapshot { width: 200px; margin-top: 15px; text-align: center; font-weight: bold; }
+	#snapshot img { width: 100%; height: auto; }
+	#bounds { }
+	#bounds span { display: inline-block; width: 55px; }
+	#cursor-coords { text-align: center; margin-top: 15px; }
 </style>
 <script>
 	// Mapbox Map ID
 	var mID = 'yourusername.yoursavedmapid';
 	// load map with center at lat/lng
 	var lat = 37.52041; 
-  var lng = 23.4795;
-  var defaultZoom = 14;
-  // map setup
-  var map = L.map('map', { maxZoom: 18 }).setView([lat, lng], defaultZoom);
-  var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v3/'+mID+'/{z}/{x}/{y}.png', {
-    attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox &copy; OpenStreetMap</a>, <a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a>',
-  }).addTo(map);
-  // snapshot setup
-  var snapshot = document.getElementById('snapshot');
-  var bounds = document.getElementById('bounds');
+	var lng = 23.4795;
+	var defaultZoom = 14;
+	// map setup
+	var map = L.map('map', { maxZoom: 18 }).setView([lat, lng], defaultZoom);
+	var mapbox = L.tileLayer('https://{s}.tiles.mapbox.com/v3/'+mID+'/{z}/{x}/{y}.png', {
+		attribution: '<a href="https://www.mapbox.com/about/maps/" target="_blank">&copy; Mapbox &copy; OpenStreetMap</a>, <a href="https://www.mapbox.com/map-feedback/" target="_blank">Improve this map</a>',
+	}).addTo(map);
+	// snapshot setup
+	var snapshot = document.getElementById('snapshot');
+	var bounds = document.getElementById('bounds');
 	document.getElementById('snap').addEventListener('click', function() {
 		snapshot.innerHTML = '*** generating tile ***';
 		bounds.innerHTML = '';
-    leafletImage(map, doImage);
+		leafletImage(map, doImage);
 	});
 	function doImage(err, canvas) {
-    var img = document.createElement('img');
-    var dimensions = map.getSize();
-    img.width = dimensions.x;
-    img.height = dimensions.y;
-    img.src = canvas.toDataURL();
-    snapshot.innerHTML = '';
-    snapshot.appendChild(img);
-    var mapBounds = map.getBounds();
-    bounds.innerHTML = 'Right-click and "save image as"<br><br><span>NE lat:</span>'+mapBounds._northEast.lat+'<br><span>NE lng:</span>'+mapBounds._northEast.lng+'<br><span>SW lat:</span>'+mapBounds._southWest.lat+'<br><span>SW lng:</span>'+mapBounds._southWest.lng
+		var img = document.createElement('img');
+		var dimensions = map.getSize();
+		img.width = dimensions.x;
+		img.height = dimensions.y;
+		img.src = canvas.toDataURL();
+		snapshot.innerHTML = '';
+		snapshot.appendChild(img);
+		var mapBounds = map.getBounds();
+		bounds.innerHTML = 'Right-click and "save image as"<br><br><span>NE lat:</span>'+mapBounds._northEast.lat+'<br><span>NE lng:</span>'+mapBounds._northEast.lng+'<br><span>SW lat:</span>'+mapBounds._southWest.lat+'<br><span>SW lng:</span>'+mapBounds._southWest.lng
 	}
 	// track cursor location
 	var cursorCoords = document.getElementById('cursor-coords');
