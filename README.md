@@ -58,4 +58,4 @@ Full documentation on the libraries used to create this tool:
 Mapbox Tile Grabber adheres to the attribution polices of all third part components. Read these policies before modifying this code or using any of the custom map tiles you generate with this tool.
 
 * [Mapbox attribution policy](https://www.mapbox.com/help/attribution)
-* [Leaflet attribution policy](https://www.mapbox.com/help/attribution)
+* [Leaflet attribution policy](https://github.com/Leaflet/Leaflet/blob/master/FAQ.md#commercial-use-and-licensing)
