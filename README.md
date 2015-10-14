@@ -1,6 +1,6 @@
 # Mapbox Tile Grabber
 
-Generate custom map tile images with boundary coordinates. 
+Generate custom map tile images with boundary box. 
 
 Mapbox Tile Grabber was created as an internal dev utility. It is not recommended that your instance of Mapbox Tile Grabber be publicly accessible.
 
@@ -15,6 +15,8 @@ A Mapbox account is required in order to use the Mapbox API.
 ### Install
 
 `index.html` can be opened from file in a browser, but an internet connection is still required to communicate with your Mapbox account.
+
+Mapbox Tile Grabber provides two ways to save a generated tile due to limited browser support for the javascript `download` attribute. [Check current browser suppot here.](http://caniuse.com/#feat=download)
 
 ### Configure Mapbox API
 
@@ -41,6 +43,15 @@ Set the hight and width of the `#map` element to control both the size of the ma
 ```css
 /* size of map onscreen and generated png */
 #map { width: 1900px; height: 1200px; } 
+```
+
+Customize tile filename.
+
+```javascript
+// filename prefix
+var filePrefix = 'Poros'
+// filename format
+var fileName = filePrefix+' ('+mapBounds._southWest.lng+', '+mapBounds._southWest.lat+', '+mapBounds._northEast.lng+', '+mapBounds._northEast.lat+').png';
 ```
 
 ## More Information

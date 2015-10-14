@@ -10,10 +10,12 @@
 	<body>
 		<div class="container">
 			<div id="controls">
-				<button id='snap' class='ui-button'>GRAB TILE</button>
+				<button id='snap' class='ui-button'>GENERATE TILE</button>
 				<div id='snapshot'></div>
+				<div id='download'></div>
+				<div id='snapshot-metadata'></div>
 				<div id='bounds'></div>
-				<div id='cursor-coords'>click map for coordinates</div>
+				<div id='cursor-coords'>click map for point coordinates</div>
 			</div>
 			<div id="map"></div>	
 		</div>
@@ -22,15 +24,18 @@
 <style>
 	body { margin: 10px; padding: 0;}
 	.container { position: relative; display: inline-block; }
-	#controls { position: absolute; top: 10px; right: 10px; z-index: 1; padding: 15px; background-color: rgba(255,255,255,.5); font-family: sans-serif; font-size: 13px; }
+	#controls { position: absolute; top: 10px; right: 10px; z-index: 1; width: 200px; padding: 15px; background-color: rgba(255,255,255,.5); font-family: sans-serif; font-size: 13px; }
 	#controls button { width: 100%; }
 	/* size of map onscreen and generated png */
-	#map { width: 1900px; height: 1200px; } 
-	#snapshot { width: 200px; margin-top: 15px; text-align: center; font-weight: bold; }
+	#map { width: 1024px; height: 1024px; } 
+	#snapshot { width: 100%; margin-top: 15px; text-align: center; font-weight: bold; }
 	#snapshot img { width: 100%; height: auto; }
-	#bounds { }
+	#download { text-align: center; margin-top: 15px; }
+	#snapshot-metadata { margin-top: 15px; }
+	#snapshot-metadata span { font-family: monospace; }
+	#bounds { margin-top: 20px; }
 	#bounds span { display: inline-block; width: 55px; }
-	#cursor-coords { text-align: center; margin-top: 15px; }
+	#cursor-coords { text-align: center; margin-top: 20px; }
 </style>
 <script>
 	// Mapbox Map ID
@@ -46,25 +51,43 @@
 	}).addTo(map);
 	// snapshot setup
 	var snapshot = document.getElementById('snapshot');
+	var download = document.getElementById('download');
+	var snapshotMetadata = document.getElementById('snapshot-metadata');
 	var bounds = document.getElementById('bounds');
+	var cursorCoords = document.getElementById('cursor-coords');
 	document.getElementById('snap').addEventListener('click', function() {
 		snapshot.innerHTML = '*** generating tile ***';
+		snapshotMetadata.innerHTML = '';
+		download.innerHTML = '';
 		bounds.innerHTML = '';
 		leafletImage(map, doImage);
 	});
 	function doImage(err, canvas) {
+		var mapBounds = map.getBounds();
+		// filename prefix
+		var filePrefix = 'Poros'
+		// filename format
+		var fileName = filePrefix+' ('+mapBounds._southWest.lng+', '+mapBounds._southWest.lat+', '+mapBounds._northEast.lng+', '+mapBounds._northEast.lat+').png';
 		var img = document.createElement('img');
+		var link = document.createElement('a'); 
 		var dimensions = map.getSize();
+		// generate image
 		img.width = dimensions.x;
 		img.height = dimensions.y;
 		img.src = canvas.toDataURL();
+		img.download = fileName;
 		snapshot.innerHTML = '';
 		snapshot.appendChild(img);
-		var mapBounds = map.getBounds();
-		bounds.innerHTML = 'Right-click and "save image as"<br><br><span>NE lat:</span>'+mapBounds._northEast.lat+'<br><span>NE lng:</span>'+mapBounds._northEast.lng+'<br><span>SW lat:</span>'+mapBounds._southWest.lat+'<br><span>SW lng:</span>'+mapBounds._southWest.lng
+		snapshotMetadata.innerHTML = 'Or right-click and "save image as" with filename: <br><span>'+fileName+'</span>';
+		// generate image download link
+		link.href = canvas.toDataURL();
+		link.download = fileName;
+		link.text = 'Download tile';
+		download.appendChild(link);
+		// show bounding box values
+		bounds.innerHTML = 'Bounding box:<br><span>West</span>'+mapBounds._southWest.lng+'<br><span>South</span>'+mapBounds._southWest.lat+'<br><span>East</span>'+mapBounds._northEast.lng+'<br><span>North</span>'+mapBounds._northEast.lat
 	}
 	// track cursor location
-	var cursorCoords = document.getElementById('cursor-coords');
 	map.on('click', function(e){
 		cursorCoords.innerHTML = e.latlng;
 	});
