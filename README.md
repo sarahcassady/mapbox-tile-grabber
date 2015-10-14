@@ -16,7 +16,7 @@ A Mapbox account is required in order to use the Mapbox API.
 
 `index.html` can be opened from file in a browser, but an internet connection is still required to communicate with your Mapbox account.
 
-Mapbox Tile Grabber provides two ways to save a generated tile due to limited browser support for the javascript `download` attribute. [Check current browser suppot here.](http://caniuse.com/#feat=download)
+Mapbox Tile Grabber provides two ways to save a generated tile due to limited browser support for the javascript `download` attribute. [Check current browser support here.](http://caniuse.com/#feat=download)
 
 ### Configure Mapbox API
 
