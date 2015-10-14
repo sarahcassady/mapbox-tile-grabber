@@ -42,7 +42,7 @@ Set the hight and width of the `#map` element to control both the size of the ma
 
 ```css
 /* size of map onscreen and generated png */
-#map { width: 1900px; height: 1200px; } 
+#map { width: 1024px; height: 1024px; } 
 ```
 
 Customize tile filename.
